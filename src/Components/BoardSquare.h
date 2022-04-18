@@ -1,23 +1,40 @@
 #ifndef BOARD_SQUARE_H
 #define BOARD_SQUARE_H
 
-#include <iostream>
+/**
+ * @file BoardSquare.h
+ * @author Alyppyo Coutinho (Alyppyo Coutinho)
+ * @brief Classe que representa uma casa do tabuleiro do campo minado.
+ * @version 0.1
+ * @date 2022-04-18
+ */
 
+// SFML
 #include <SFML/Graphics.hpp>
 
+// Projeto
 #include "../System/AssetManager.h"
 #include "../System/Palette.h"
 
+/**
+ * @brief Estado da casa do tabuleiro.
+ */
 enum class BoardSquareState {
     Idle, MouseHovering, Pressed
 };
 
+/**
+ * @brief Tipo de conteúdo da casa.
+ */
 enum class BoardSquareContent {
     Empty, Text, Sprite
 };
 
+/**
+ * @brief Classe que representa a casa do tabuleiro.
+ */
 class BoardSquare : public sf::Drawable, public sf::Transformable {
-    sf::RectangleShape square_;
+    sf::RectangleShape square_; 
     BoardSquareState state_;
     BoardSquareContent content_, backupContent_;
     sf::Color squareOutlineColor_, squareFillColor_;
