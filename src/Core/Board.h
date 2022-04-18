@@ -1,20 +1,33 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+/**
+ * @file Board.h
+ * @author Alyppyo Coutinho
+ * @brief Classe que representa o tabuleiro de um jogo de campo minado.
+ * @version 0.1
+ * @date 2022-04-18
+ */
+
+// C++
 #include <algorithm>
 #include <array>
-#include <bitset>
 #include <iomanip>
-#include <iostream>
 #include <numeric>
 #include <queue>
 #include <random>
 #include <vector>
 
+// Projeto
 #include "BoardItem.h"
 
+// Alias para coordenadas dadas em pares.
 using Coord = std::pair<int,int>;
 
+/**
+ * @brief Classe que representa um tabuleiro de campo minado.
+ * 
+ */
 class Board {
     int lines_, columns_;
     int bombs_, specialists_, numberOfSelectedItems_;

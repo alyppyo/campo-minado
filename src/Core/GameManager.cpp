@@ -1,15 +1,35 @@
+/**
+ * @file GameManager.cpp
+ * @author Alyppyo Coutinho
+ * @brief Implementação da classe que representa o gerenciador de jogo.
+ * @version 0.1
+ * @date 2022-04-18
+ */
+
 #include "GameManager.h"
 
+/**
+ * @brief Constrói um novo gerenciador de jogo.
+ */
 GameManager::GameManager() : 
+    // Define as dimensões da janela.
     screenWidth_(600), screenHeight_(800),
+    // Cria nova janela que será usada pelo jogo.
     window_(sf::VideoMode(screenWidth_, screenHeight_), "Campo Minado", sf::Style::Titlebar | sf::Style::Close),
+    // Define os valores iniciais do tabuleiro.
     lines_(15), columns_(15), bombs_(20), specialists_(1) {
     // Iniciar o gerenciador de assets.
     AssetManager::loadAssets();
 }
 
+/**
+ * @brief Destrutor padrão.
+ */
 GameManager::~GameManager() {}
 
+/**
+ * @brief Verifica se uma mudança de tela foi sinalizada, cria a tela correspondente e substitui a atual.
+ */
 void GameManager::checkScreenStatus() {
     if(currentScreen_->state() == ScreenState::ChangeToTitle) {
         currentScreen_->resize(screenWidth_, screenHeight_);
@@ -28,7 +48,11 @@ void GameManager::checkScreenStatus() {
     }
 }
 
+/**
+ * @brief Laço principal do jogo.
+ */
 void GameManager::loop() {
+    // Posição do mouse.
     sf::Vector2i mousePosition;
 
     // Laço principal do jogo.
@@ -41,6 +65,7 @@ void GameManager::loop() {
         // Verificar eventos gerados.
         sf::Event event;
 
+        // Processar todos os eventos na fila.
         while (window_.pollEvent(event)) {
             // Tratar eventos de mouse.
             if(event.type == sf::Event::MouseMoved) 
@@ -48,6 +73,7 @@ void GameManager::loop() {
             else if(event.type == sf::Event::MouseLeft)
                 mousePosition = sf::Vector2i(-1,-1);
             
+            // Verificar qual botão está sendo pressionado no momento.
             if(event.type == sf::Event::MouseButtonPressed) {
                 if(event.mouseButton.button == sf::Mouse::Left)
                     mouseState = MouseState::LeftButtonPressed;
@@ -70,6 +96,9 @@ void GameManager::loop() {
     }
 }
 
+/**
+ * @brief Iniciar o jogo.
+ */
 void GameManager::start() {
     // Criar novo jogo e iniciar seus componentes.    
     currentScreen_ = std::make_unique<TitleScreen>(&window_);
