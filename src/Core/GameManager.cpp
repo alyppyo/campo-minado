@@ -2,8 +2,8 @@
 
 GameManager::GameManager() : 
     screenWidth_(600), screenHeight_(800),
-    window_(sf::VideoMode(screenWidth_, screenHeight_), "Campo Minado", sf::Style::Titlebar | sf::Style::Close) {
-    
+    window_(sf::VideoMode(screenWidth_, screenHeight_), "Campo Minado", sf::Style::Titlebar | sf::Style::Close),
+    lines_(15), columns_(15), bombs_(40) {
     // Iniciar o gerenciador de assets.
     AssetManager::loadAssets();
 }
@@ -15,10 +15,15 @@ void GameManager::checkScreenStatus() {
         currentScreen_->resize(screenWidth_, screenHeight_);
         currentScreen_ = std::make_unique<TitleScreen>(&window_);
     }
-    else if(currentScreen_->status() == ScreenStatus::ChangeToGame)
-        currentScreen_ = std::make_unique<GameScreen>(&window_, 20, 30, 40);
+    else if(currentScreen_->status() == ScreenStatus::ChangeToOptions) {
+        currentScreen_ = std::make_unique<OptionsScreen>(&window_, lines_, columns_, bombs_, specialists_);
+    }
+    else if(currentScreen_->status() == ScreenStatus::ChangeToGame) {
+        currentScreen_ = std::make_unique<GameScreen>(&window_, lines_, columns_, bombs_, specialists_);
+    }
     else if(currentScreen_->status() == ScreenStatus::ChangeToGameOverVictory ||
             currentScreen_->status() == ScreenStatus::ChangeToGameOverDefeat) {
+        currentScreen_->resize(screenHeight_, screenWidth_);
         currentScreen_ = std::make_unique<GameOverScreen>(&window_, currentScreen_->status() == ScreenStatus::ChangeToGameOverVictory);
     }
 }

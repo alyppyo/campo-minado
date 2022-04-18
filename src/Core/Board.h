@@ -1,5 +1,5 @@
-#ifndef TABULEIRO_H
-#define TABULEIRO_H
+#ifndef BOARD_H
+#define BOARD_H
 
 #include <algorithm>
 #include <array>
@@ -17,7 +17,7 @@ using Coord = std::pair<int,int>;
 
 class Board {
     int lines_, columns_;
-    int numberOfBombs_, numberOfSelectedItems_;
+    int bombs_, specialists_, numberOfSelectedItems_;
     std::vector<std::vector<BoardItem>> matrix_;
     std::array<Coord, 8> coordsNeighbors_;
 
@@ -26,10 +26,9 @@ class Board {
     void propagateEmptySpaces(Coord coord);
 
 public:
-    Board(int linhas, int colunas, int qtdBombas);
+    Board(int lines, int columns, int bombs, int specialists);
     ~Board();
 
-    void show(bool revealBoard = false);
     void selectItem(Coord coord, bool propagateEmptySpaces = true);
     
     int columns();

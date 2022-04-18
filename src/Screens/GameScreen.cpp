@@ -1,9 +1,9 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int numberOfBombs) :
-    board_(lines, columns, numberOfBombs), Screen::Screen(window) {
+GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int bombs, int specialists) :
+    board_(lines, columns, bombs, specialists), Screen::Screen(window) {
 
-    // Board components
+    // Inicializar componentes.
     buttonSpace_ = 2;
     headerHeight_ = 100;
     boardMargin_ = 8;
@@ -30,29 +30,19 @@ GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int nu
         }
     }
 
-    // Header components
-    sf::Color teal(25,114,120), darkTeal(40,61,59);
-    sf::Color red1(245, 75, 100);
-    sf::Color red2(247, 131, 97);
-    sf::Color gray1(36, 42, 56);
-    sf::Color gray2(78, 88, 110);
+    bombsCounterLabel_.setFont(AssetManager::font(Font::MotionControl));
+    bombsCounterLabel_.setString(sf::String("Bombas: " + std::to_string(bombs)));
+    bombsCounterLabel_.setCharacterSize(30);
+    bombsCounterLabel_.setFillColor(sf::Color::White);
+    centerAtPosition(bombsCounterLabel_, 0.0);
+    bombsCounterLabel_.move(sf::Vector2f(-80,50));
 
-    auto [windowWidth, windowHeight] = window_->getSize();
-    // rectangle_[0] = sf::Vertex(sf::Vector2f(0, 0), red1);
-    // rectangle_[1] = sf::Vertex(sf::Vector2f(windowWidth, 0), red1);
-    // rectangle_[2] = sf::Vertex(sf::Vector2f(windowWidth, windowHeight), red1);
-    // rectangle_[3] = sf::Vertex(sf::Vector2f(0, windowHeight), red1);
-
-    // backgroundRect_.setFillColor(gray1);
-    // backgroundRect_.setSize(sf::Vector2f(boardSize_.x, headerHeight_));
-
-    sf::RectangleShape backgroundBombCounter;
-    sf::RectangleShape backgroundSpecialistCounter;
-
-    titleBombCounter_.setFont(AssetManager::font(Font::Roboto));
-    titleBombCounter_.setString(L"Bombas");
-    titleBombCounter_.setCharacterSize(30);
-    titleBombCounter_.setFillColor(sf::Color::White);
+    specialistsCounterLabel_.setFont(AssetManager::font(Font::MotionControl));
+    specialistsCounterLabel_.setString(sf::String("Especialistas: " + std::to_string(specialists)));
+    specialistsCounterLabel_.setCharacterSize(30);
+    specialistsCounterLabel_.setFillColor(sf::Color::White);
+    centerAtPosition(specialistsCounterLabel_, 0.0);
+    specialistsCounterLabel_.move(sf::Vector2f(80,52));
 }
 
 void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
@@ -89,7 +79,8 @@ void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
 }
 
 void GameScreen::drawHeader() {
-    window_->draw(titleBombCounter_);
+    window_->draw(bombsCounterLabel_);
+    window_->draw(specialistsCounterLabel_);
 }
 
 bool GameScreen::isValidCoord(int line, int column) {

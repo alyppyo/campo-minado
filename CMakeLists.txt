@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
     src/Screens/GameScreen.cpp
     src/Screens/GameOverScreen.h
     src/Screens/GameOverScreen.cpp
+    src/Screens/OptionsScreen.h
+    src/Screens/OptionsScreen.cpp
     src/System/AssetManager.h
     src/System/AssetManager.cpp
 )

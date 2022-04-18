@@ -15,10 +15,11 @@ class GameScreen : public Screen {
     int headerHeight_;
 
     sf::RectangleShape backgroundRect_;
-    sf::Text titleBombCounter_;
+    sf::Text bombsCounterLabel_;
+    sf::Text specialistsCounterLabel_;
 
 public:
-    GameScreen(sf::RenderWindow * window, int lines, int columns, int numberOfBombs);
+    GameScreen(sf::RenderWindow * window, int lines, int columns, int bombs, int specialists);
     void drawHeader();
     bool isValidCoord(int line, int column);
     void updateBoard(int line, int column);

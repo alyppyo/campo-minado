@@ -6,13 +6,12 @@
 namespace ItemContent {
     const char Flag = 'B';
     const char Bomb = '*';
-    const char QuestionMark = '?';
     const char NotSelected = '#';
     const char Empty = ' ';
 };
 
 enum class ItemState {
-    NotSelected, Selected, Flagged, QuestionMarked
+    NotSelected, Selected, Flagged
 };
 
 class BoardItem {
@@ -27,8 +26,6 @@ public:
     bool isBomb();
     void setContent(char content);
     void setState(ItemState state);
-
-    friend std::ostream& operator<<(std::ostream& out, const BoardItem& item);
 };
 
 #endif

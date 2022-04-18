@@ -22,8 +22,3 @@ void BoardItem::setContent(char content) {
 void BoardItem::setState(ItemState state) {
     state_ = state;
 }
-
-std::ostream& operator<<(std::ostream& out, const BoardItem& item) {
-    out << static_cast<char>(item.content());
-    return out;
-}
