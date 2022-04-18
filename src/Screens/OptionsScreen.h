@@ -1,12 +1,27 @@
 #ifndef OPTIONS_SCREEN_H
 #define OPTIONS_SCREEN_H
 
+/**
+ * @file OptionsScreen.h
+ * @author Alyppyo Coutinho (alyppyo@gmail.com)
+ * @brief Tela de opções do jogo.
+ * @version 0.1
+ * @date 2022-04-18
+ */
+
+// C++
+#include <vector>
+
+// SFML
 #include <SFML/Graphics.hpp>
+
+// Projeto
 #include "../Components/Button.h"
 #include "Screen.h"
 
-#include <vector>
-
+/**
+ * @brief Tela de opções do jogo.
+ */
 class OptionsScreen : public Screen {
     std::vector<sf::Text> texts_;
     std::vector<Button> buttons_;

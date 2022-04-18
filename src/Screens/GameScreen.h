@@ -1,11 +1,23 @@
 #ifndef GAME_SCREEN_H
 #define GAME_SCREEN_H
 
+/**
+ * @file GameScreen.h
+ * @author Alyppyo Coutinho (alyppyo@gmail.com)
+ * @brief Tela de jogo.
+ * @version 0.1
+ * @date 2022-04-18
+ */
+
+// Projeto
 #include "Screen.h"
 #include "../Core/Board.h"
 #include "../Components/BoardSquare.h"
 #include "../System/AssetManager.h"
 
+/**
+ * @brief Tela de jogo.
+ */
 class GameScreen : public Screen {
     std::vector<std::vector<BoardSquare>> boardButtons_;
     Board board_;

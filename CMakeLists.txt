@@ -6,7 +6,7 @@ project(CampoMinado LANGUAGES CXX)
 
 # Versão do C++
 set(CMAKE_CXX_STANDARD 17)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows")
 
 find_package(SFML 2.5 COMPONENTS graphics audio main REQUIRED)
 
