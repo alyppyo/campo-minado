@@ -5,16 +5,16 @@
 #include <iostream>
 
 enum Font {
-    MotionControl, Roboto, Awesome
+    MotionControl, Roboto, NotoSans, FontCount
 };
 
 enum Texture {
-    Bomb, Flag
+    Bomb, Flag, Logo, TextureCount
 };
 
 class AssetManager {
-    static sf::Font fonts_[3];
-    static sf::Texture textures_[2];
+    static sf::Font fonts_[Font::FontCount];
+    static sf::Texture textures_[Texture::TextureCount];
 
     AssetManager();
 

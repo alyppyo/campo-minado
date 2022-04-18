@@ -1,11 +1,15 @@
 #include "Screen.h"
 
-Screen::Screen() : backgroundColor_(sf::Color::White) {}
+Screen::Screen(sf::RenderWindow * window) : window_(window) {}
 
-void Screen::init(sf::RenderWindow * window) {
-    window_ = window;
+void Screen::draw(sf::Vector2i mousePosition, bool mousePressed) {
+    window_->clear(Palette::Background);
 }
 
-void Screen::draw() {
-    window_->clear(backgroundColor_);
+ScreenStatus Screen::status() {
+    return status_;
+}
+
+void Screen::setStatus(ScreenStatus status) {
+    status_ = status;
 }

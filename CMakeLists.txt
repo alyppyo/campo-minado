@@ -12,8 +12,6 @@ find_package(SFML 2.5 COMPONENTS graphics audio main REQUIRED)
 
 # Fontes do projeto
 set(PROJECT_SOURCES 
-    src/CampoMinado.h
-    src/CampoMinado.cpp
     src/Main.cpp
     src/Components/Button.h
     src/Components/Button.cpp
@@ -21,12 +19,16 @@ set(PROJECT_SOURCES
     src/Core/Board.cpp
     src/Core/BoardItem.h
     src/Core/BoardItem.cpp   
+    src/Core/GameManager.h   
+    src/Core/GameManager.cpp   
     src/Screens/Screen.h
     src/Screens/Screen.cpp
     src/Screens/TitleScreen.h
     src/Screens/TitleScreen.cpp
     src/Screens/GameScreen.h
     src/Screens/GameScreen.cpp
+    src/Screens/GameOverScreen.h
+    src/Screens/GameOverScreen.cpp
     src/System/AssetManager.h
     src/System/AssetManager.cpp
 )

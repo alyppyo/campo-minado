@@ -18,12 +18,12 @@ class GameScreen : public Screen {
     sf::Text titleBombCounter_;
 
 public:
-    GameScreen(int lines, int columns, int numberOfBombs);
-    void draw(sf::Vector2i mousePosition, bool mousePressed = false);
+    GameScreen(sf::RenderWindow * window, int lines, int columns, int numberOfBombs);
     void drawHeader();
-    void init(sf::RenderWindow * window);
     bool isValidCoord(int line, int column);
     void updateBoard(int line, int column);
+    
+    virtual void draw(sf::Vector2i mousePosition, bool mousePressed = false) override;
 };
 
 #endif

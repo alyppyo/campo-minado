@@ -10,11 +10,10 @@ class GameOverScreen : public Screen {
     Button returnButton_;
 
 public:
-    GameOverScreen();
-    ~GameOverScreen() = default;
+    GameOverScreen(sf::RenderWindow * window, bool victory);
+    ~GameOverScreen();
     
-    void draw(sf::Vector2i mousePosition, bool mousePressed = false);
-    void init();
+    virtual void draw(sf::Vector2i mousePosition, bool mousePressed = false) override;
 };
 
 #endif

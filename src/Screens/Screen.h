@@ -3,20 +3,22 @@
 
 #include <SFML/Graphics.hpp>
 #include "../System/AssetManager.h"
+#include "../System/Palette.h"
 
-enum class ScreenType {
-    Title, Game, Options, Credits, GameOver
+enum class ScreenStatus {
+    Idle, ChangeToTitle, ChangeToGame, ChangeToGameOverVictory, ChangeToGameOverDefeat
 };
 
 class Screen {
 protected:    
     sf::RenderWindow * window_;
-    sf::Color backgroundColor_;
+    ScreenStatus status_;
 
 public:
-    Screen();
-    virtual void draw();
-    virtual void initComponents(sf::RenderWindow * window);
+    Screen(sf::RenderWindow * window);
+    virtual void draw(sf::Vector2i mousePosition, bool mousePressed);
+    ScreenStatus status();
+    void setStatus(ScreenStatus status);
 };
 
 #endif

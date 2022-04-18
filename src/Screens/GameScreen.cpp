@@ -1,10 +1,7 @@
 #include "GameScreen.h"
 
-GameScreen::GameScreen(int lines, int columns, int numberOfBombs) :
-    board_(lines, columns, numberOfBombs) {}
-
-void GameScreen::initComponents(sf::RenderWindow * window) {
-    Screen::initComponents(window);
+GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int numberOfBombs) :
+    board_(lines, columns, numberOfBombs), Screen::Screen(window) {
 
     // Board components
     buttonSpace_ = 2;
@@ -12,6 +9,7 @@ void GameScreen::initComponents(sf::RenderWindow * window) {
     boardMargin_ = 8;
     boardButtons_ = std::vector(board_.lines(), std::vector<Button>(board_.columns()));
     window_ = window;
+    status_ = ScreenStatus::Idle;
     
     buttonSize_ = sf::Vector2u(boardButtons_[0][0].size().x, boardButtons_[0][0].size().y);
     boardSize_ = sf::Vector2u(board_.columns()*(buttonSize_.x+buttonSpace_)-buttonSpace_+2*boardMargin_,
@@ -41,8 +39,6 @@ void GameScreen::initComponents(sf::RenderWindow * window) {
     sf::Color gray1(36, 42, 56);
     sf::Color gray2(78, 88, 110);
 
-    backgroundColor_ = red1;
-
     auto [windowWidth, windowHeight] = window_->getSize();
     // rectangle_[0] = sf::Vertex(sf::Vector2f(0, 0), red1);
     // rectangle_[1] = sf::Vertex(sf::Vector2f(windowWidth, 0), red1);
@@ -62,7 +58,7 @@ void GameScreen::initComponents(sf::RenderWindow * window) {
 }
 
 void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
-    Screen::draw(); 
+    Screen::draw(mousePosition, mousePressed); 
 
     drawHeader();
 
@@ -88,6 +84,9 @@ void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
     if(buttonFound) {
         window_->draw(boardButtons_[line][column]);
         boardButtons_[line][column].setState(ButtonState::MouseOut);
+
+        if(board_.item({line,column}).isBomb() && mousePressed)
+            status_ = ScreenStatus::ChangeToGameOverDefeat;
     }
 }
 

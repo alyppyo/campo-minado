@@ -4,8 +4,10 @@
 #include "Screen.h"
 
 class TitleScreen : public Screen {
+    sf::Sprite logo_;
+
 public:
-    TitleScreen();
+    TitleScreen(sf::RenderWindow * window);
     virtual void draw();
 };
 
