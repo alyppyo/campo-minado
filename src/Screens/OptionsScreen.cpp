@@ -87,14 +87,14 @@ OptionsScreen::OptionsScreen(sf::RenderWindow * window, int& lines, int& columns
 
 OptionsScreen::~OptionsScreen() {}
     
-void OptionsScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
-    Screen::draw(mousePosition, mousePressed);
+void OptionsScreen::draw(sf::Vector2i mousePosition, MouseState mouseState) {
+    Screen::draw(mousePosition, mouseState);
 
     for(auto& text : texts_)
         window_->draw(text);
 
     for(int i = 0; i < buttons_.size(); ++i) {
-        if(buttons_[i].update(mousePosition) == ButtonState::MouseHovering && mousePressed) {
+        if(buttons_[i].update(mousePosition) == ButtonState::MouseHovering && mouseState == MouseState::LeftButtonPressed) {
             if(i == 0 && lines_ > minLines_) {
                 --lines_;
                 texts_[2].setString(sf::String(std::to_string(lines_)));
@@ -144,7 +144,7 @@ void OptionsScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
                 texts_[8].setString(sf::String(std::to_string(specialists_)));
             }
             else if(i == 8)
-                status_ = ScreenStatus::ChangeToTitle;
+                state_ = ScreenState::ChangeToTitle;
         }
 
         window_->draw(buttons_[i]);

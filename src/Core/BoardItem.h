@@ -4,7 +4,6 @@
 #include <ostream>
 
 namespace ItemContent {
-    const char Flag = 'B';
     const char Bomb = '*';
     const char NotSelected = '#';
     const char Empty = ' ';

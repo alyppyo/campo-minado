@@ -29,14 +29,15 @@ public:
     Board(int lines, int columns, int bombs, int specialists);
     ~Board();
 
-    void selectItem(Coord coord, bool propagateEmptySpaces = true);
-    
+    bool areAllSelected();
     int columns();
+    void decreaseSpecialistsNumber();
+    bool isValidCoord(Coord coord);
     BoardItem& item(Coord coord);
     int lines();
-    
-    bool isValidCoord(Coord coord);
-    bool areAllSelected();
+    void selectItem(Coord coord, bool propagateEmptySpaces = true); 
+    void setFlag(Coord coord, bool active);
+    int specialists();
 };
  
 #endif

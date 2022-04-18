@@ -12,7 +12,7 @@ class TitleScreen : public Screen {
 
 public:
     TitleScreen(sf::RenderWindow * window);
-    virtual void draw(sf::Vector2i mousePosition, bool mousePressed) override;
+    virtual void draw(sf::Vector2i mousePosition, MouseState mouseState) override;
 };
 
 #endif

@@ -6,22 +6,27 @@
 #include "../System/AssetManager.h"
 #include "../System/Palette.h"
 
-enum class ScreenStatus {
+enum class ScreenState {
     Idle, ChangeToTitle, ChangeToOptions, ChangeToGame, ChangeToGameOverVictory, ChangeToGameOverDefeat
+};
+
+enum class MouseState {
+    Idle, LeftButtonPressed, RightButtonPressed, MiddleButtonPressed
 };
 
 class Screen {
 protected:    
     sf::RenderWindow * window_;
-    ScreenStatus status_;
+    ScreenState state_;
 
 public:
     Screen(sf::RenderWindow * window);
     void centerAtPosition(sf::Text& text, float height);
-    virtual void draw(sf::Vector2i mousePosition, bool mousePressed);
     void resize(int width, int height);
-    ScreenStatus status();
-    void setStatus(ScreenStatus status);
+    ScreenState state();
+    void setState(ScreenState state);
+    
+    virtual void draw(sf::Vector2i mousePosition, MouseState mouseState);
 };
 
 #endif

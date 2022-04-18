@@ -21,7 +21,7 @@ public:
     OptionsScreen(sf::RenderWindow * window, int& lines, int& columns, int& bombs, int& specialists);
     ~OptionsScreen();
 
-    virtual void draw(sf::Vector2i mousePosition, bool mousePressed = false) override;
+    virtual void draw(sf::Vector2i mousePosition, MouseState mouseState) override;
 };
 
 #endif

@@ -3,7 +3,7 @@
 GameManager::GameManager() : 
     screenWidth_(600), screenHeight_(800),
     window_(sf::VideoMode(screenWidth_, screenHeight_), "Campo Minado", sf::Style::Titlebar | sf::Style::Close),
-    lines_(15), columns_(15), bombs_(40) {
+    lines_(15), columns_(15), bombs_(20), specialists_(1) {
     // Iniciar o gerenciador de assets.
     AssetManager::loadAssets();
 }
@@ -11,20 +11,20 @@ GameManager::GameManager() :
 GameManager::~GameManager() {}
 
 void GameManager::checkScreenStatus() {
-    if(currentScreen_->status() == ScreenStatus::ChangeToTitle) {
+    if(currentScreen_->state() == ScreenState::ChangeToTitle) {
         currentScreen_->resize(screenWidth_, screenHeight_);
         currentScreen_ = std::make_unique<TitleScreen>(&window_);
     }
-    else if(currentScreen_->status() == ScreenStatus::ChangeToOptions) {
+    else if(currentScreen_->state() == ScreenState::ChangeToOptions) {
         currentScreen_ = std::make_unique<OptionsScreen>(&window_, lines_, columns_, bombs_, specialists_);
     }
-    else if(currentScreen_->status() == ScreenStatus::ChangeToGame) {
+    else if(currentScreen_->state() == ScreenState::ChangeToGame) {
         currentScreen_ = std::make_unique<GameScreen>(&window_, lines_, columns_, bombs_, specialists_);
     }
-    else if(currentScreen_->status() == ScreenStatus::ChangeToGameOverVictory ||
-            currentScreen_->status() == ScreenStatus::ChangeToGameOverDefeat) {
+    else if(currentScreen_->state() == ScreenState::ChangeToGameOverVictory ||
+            currentScreen_->state() == ScreenState::ChangeToGameOverDefeat) {
         currentScreen_->resize(screenHeight_, screenWidth_);
-        currentScreen_ = std::make_unique<GameOverScreen>(&window_, currentScreen_->status() == ScreenStatus::ChangeToGameOverVictory);
+        currentScreen_ = std::make_unique<GameOverScreen>(&window_, currentScreen_->state() == ScreenState::ChangeToGameOverVictory);
     }
 }
 
@@ -33,7 +33,7 @@ void GameManager::loop() {
 
     // Laço principal do jogo.
     while (window_.isOpen()) {
-        bool mousePressed = false;
+        MouseState mouseState = MouseState::Idle;
 
         // Verificar se o estado da tela atual mudou.
         checkScreenStatus();
@@ -48,8 +48,14 @@ void GameManager::loop() {
             else if(event.type == sf::Event::MouseLeft)
                 mousePosition = sf::Vector2i(-1,-1);
             
-            mousePressed = (event.type == sf::Event::MouseButtonPressed &&
-                            event.mouseButton.button == sf::Mouse::Left);
+            if(event.type == sf::Event::MouseButtonPressed) {
+                if(event.mouseButton.button == sf::Mouse::Left)
+                    mouseState = MouseState::LeftButtonPressed;
+                else if(event.mouseButton.button == sf::Mouse::Right)
+                    mouseState = MouseState::RightButtonPressed;
+                else if(event.mouseButton.button == sf::Mouse::Middle)
+                    mouseState = MouseState::MiddleButtonPressed;
+            }
 
             // Fechar a janela caso o botão seja acionado.
             if (event.type == sf::Event::Closed)
@@ -57,7 +63,7 @@ void GameManager::loop() {
         }
 
         // Desenhar tela atual.
-        currentScreen_->draw(mousePosition, mousePressed);
+        currentScreen_->draw(mousePosition, mouseState);
 
         // Mostrar novo frame.
         window_.display();

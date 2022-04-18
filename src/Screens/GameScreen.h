@@ -24,7 +24,7 @@ public:
     bool isValidCoord(int line, int column);
     void updateBoard(int line, int column);
     
-    virtual void draw(sf::Vector2i mousePosition, bool mousePressed = false) override;
+    virtual void draw(sf::Vector2i mousePosition, MouseState mouseState) override;
 };
 
 #endif

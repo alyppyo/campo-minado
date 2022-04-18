@@ -31,6 +31,10 @@ int Board::columns() {
     return columns_;
 }
 
+void Board::decreaseSpecialistsNumber() {
+    if(specialists_ > 0) --specialists_;
+}
+
 void Board::distributeBombs() {
     std::string items(lines_*columns_, ItemContent::Empty);
 
@@ -92,10 +96,27 @@ void Board::propagateEmptySpaces(Coord coord) {
 }
 
 void Board::selectItem(Coord coord, bool propagar) {
-    auto& tabuleiroItem = item(coord);
-    tabuleiroItem.setState(ItemState::Selected);
-    ++numberOfSelectedItems_;
+    auto& boardItem = item(coord);
+    boardItem.setState(ItemState::Selected);
+    if(!boardItem.isBomb()) ++numberOfSelectedItems_;
 
-    if(propagar && tabuleiroItem.content() == ItemContent::Empty)
+    if(propagar && boardItem.content() == ItemContent::Empty)
         propagateEmptySpaces(coord);
+}
+
+void Board::setFlag(Coord coord, bool active) {
+    auto& tabuleiroItem = item(coord);
+
+    if(active) {
+        tabuleiroItem.setState(ItemState::Flagged);
+        ++numberOfSelectedItems_;
+    }
+    else {
+        tabuleiroItem.setState(ItemState::NotSelected);
+        --numberOfSelectedItems_;
+    }
+}
+
+int Board::specialists() {
+    return specialists_;
 }

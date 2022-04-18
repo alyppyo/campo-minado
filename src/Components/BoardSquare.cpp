@@ -3,11 +3,8 @@
 BoardSquare::BoardSquare() : content_(BoardSquareContent::Empty) {
     float outlineThickness = 1;
 
-    // sf::Color red2(247, 131, 97);
-    // sf::Color red3(205, 35, 60);
-
-    squareOutlineColor_ = sf::Color(245, 75, 100);
-    squareFillColor_ = sf::Color::White;
+    squareOutlineColor_ = Palette::Background;
+    squareFillColor_ = Palette::Text;
 
     size_ = sf::Vector2f(30,30);
 
@@ -27,12 +24,17 @@ void BoardSquare::draw(sf::RenderTarget& target, sf::RenderStates states) const 
     states.transform = getTransform();
     target.draw(square_, states);
 
-    if(state_ == BoardSquareState::Pressed) {
+    if(flagged_) target.draw(sprite_, states);
+    else if(state_ == BoardSquareState::Pressed) {
         if(content_ == BoardSquareContent::Text)
             target.draw(text_, states);
         else if(content_ == BoardSquareContent::Sprite)
             target.draw(sprite_, states);
     }
+}
+
+bool BoardSquare::flagged() {
+    return flagged_;
 }
 
 void BoardSquare::setContent(std::string text) {
@@ -44,6 +46,20 @@ void BoardSquare::setContent(sf::Texture& texture) {
     content_ = BoardSquareContent::Sprite;
     sprite_.setTexture(texture);
     sprite_.setScale(0.35,0.35);
+}
+
+void BoardSquare::setFlagged(bool flagged) {
+    if(flagged) {
+        backupContent_ = content_;
+        backupSprite_ = sprite_;
+        setContent(AssetManager::texture(Texture::Flag));
+    }
+    else {
+        content_ = backupContent_;
+        sprite_ = backupSprite_;
+    }
+
+    flagged_ = flagged;
 }
 
 void BoardSquare::setPosition(sf::Vector2f position) {
@@ -70,14 +86,14 @@ void BoardSquare::setState(BoardSquareState state) {
         square_.setOutlineColor(sf::Color(247, 131, 97));
         square_.setOutlineThickness(6);
     }
-    else if(state == BoardSquareState::MouseOut) {
+    else if(state == BoardSquareState::Idle) {
         square_.setOutlineColor(squareOutlineColor_);
         square_.setOutlineThickness(1);
     }
     else if(state == BoardSquareState::Pressed) {
         square_.setOutlineColor(sf::Color::White);
         square_.setOutlineThickness(1);
-        square_.setFillColor(sf::Color(247,131,97,100));
+        square_.setFillColor(Palette::ButtonSelected);
     }
 
     state_ = state;

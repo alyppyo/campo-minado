@@ -13,7 +13,7 @@ public:
     GameOverScreen(sf::RenderWindow * window, bool victory);
     ~GameOverScreen();
     
-    virtual void draw(sf::Vector2i mousePosition, bool mousePressed = false) override;
+    virtual void draw(sf::Vector2i mousePosition, MouseState mouseState) override;
 };
 
 #endif

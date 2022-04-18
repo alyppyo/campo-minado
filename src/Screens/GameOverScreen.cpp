@@ -22,11 +22,11 @@ GameOverScreen::GameOverScreen(sf::RenderWindow * window, bool victory) :
 
 GameOverScreen::~GameOverScreen() {}
 
-void GameOverScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
-    Screen::draw(mousePosition, mousePressed);
+void GameOverScreen::draw(sf::Vector2i mousePosition, MouseState mouseState) {
+    Screen::draw(mousePosition, mouseState);
 
-    if(returnButton_.update(mousePosition) == ButtonState::MouseHovering && mousePressed)
-        status_ = ScreenStatus::ChangeToTitle;
+    if(returnButton_.update(mousePosition) == ButtonState::MouseHovering && mouseState == MouseState::LeftButtonPressed)
+        state_ = ScreenState::ChangeToTitle;
     
     window_->draw(mainMessage_);
     window_->draw(supportMessage_);
