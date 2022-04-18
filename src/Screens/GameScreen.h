@@ -3,11 +3,11 @@
 
 #include "Screen.h"
 #include "../Core/Board.h"
-#include "../Components/Button.h"
+#include "../Components/BoardSquare.h"
 #include "../System/AssetManager.h"
 
 class GameScreen : public Screen {
-    std::vector<std::vector<Button>> boardButtons_;
+    std::vector<std::vector<BoardSquare>> boardButtons_;
     Board board_;
     sf::Vector2u boardSize_, buttonSize_;
     int buttonSpace_;

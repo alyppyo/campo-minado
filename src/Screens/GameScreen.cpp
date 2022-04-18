@@ -7,7 +7,7 @@ GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int nu
     buttonSpace_ = 2;
     headerHeight_ = 100;
     boardMargin_ = 8;
-    boardButtons_ = std::vector(board_.lines(), std::vector<Button>(board_.columns()));
+    boardButtons_ = std::vector(board_.lines(), std::vector<BoardSquare>(board_.columns()));
     window_ = window;
     status_ = ScreenStatus::Idle;
     
@@ -15,9 +15,7 @@ GameScreen::GameScreen(sf::RenderWindow * window, int lines, int columns, int nu
     boardSize_ = sf::Vector2u(board_.columns()*(buttonSize_.x+buttonSpace_)-buttonSpace_+2*boardMargin_,
                               board_.lines()*(buttonSize_.y+buttonSpace_)-buttonSpace_+2*boardMargin_);
 
-    sf::FloatRect boardArea(0, 0, boardSize_.x, headerHeight_ + boardSize_.y);
-    window_->setSize(boardSize_ + sf::Vector2u(0,headerHeight_));
-    window_->setView(sf::View(boardArea));
+    resize(boardSize_.x, headerHeight_ + boardSize_.y);
 
     for(int i = 0; i < board_.lines(); ++i) {
         for(int j = 0; j < board_.columns(); ++j) {
@@ -65,10 +63,10 @@ void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
     int line = (mousePosition.y-headerHeight_-boardMargin_)/(buttonSize_.y+buttonSpace_);
     int column = (mousePosition.x-boardMargin_)/(buttonSize_.x+buttonSpace_);
  
-    bool buttonFound = isValidCoord(line, column);
+    bool squareFound = isValidCoord(line, column);
 
-    if(buttonFound) {
-        boardButtons_[line][column].setState(mousePressed ? ButtonState::Pressed : ButtonState::MouseHovering);
+    if(squareFound) {
+        boardButtons_[line][column].setState(mousePressed ? BoardSquareState::Pressed : BoardSquareState::MouseHovering);
         
         if(mousePressed)  
             updateBoard(line, column);
@@ -76,14 +74,14 @@ void GameScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
 
     for(int i = 0; i < board_.lines(); ++i) {
         for(int j = 0; j < board_.columns(); ++j) {
-            if(buttonFound && i == line && j == column) continue;
+            if(squareFound && i == line && j == column) continue;
             window_->draw(boardButtons_[i][j]);
         }
     }
 
-    if(buttonFound) {
+    if(squareFound) {
         window_->draw(boardButtons_[line][column]);
-        boardButtons_[line][column].setState(ButtonState::MouseOut);
+        boardButtons_[line][column].setState(BoardSquareState::MouseOut);
 
         if(board_.item({line,column}).isBomb() && mousePressed)
             status_ = ScreenStatus::ChangeToGameOverDefeat;
@@ -105,9 +103,9 @@ void GameScreen::updateBoard(int line, int column) {
     
     for(int i = 0; i < board_.lines(); ++i) {
         for(int j = 0; j < board_.columns(); ++j) {
-            if(boardButtons_[i][j].state() != ButtonState::Pressed &&
+            if(boardButtons_[i][j].state() != BoardSquareState::Pressed &&
                board_.item({i,j}).state() == ItemState::Selected)
-                boardButtons_[i][j].setState(ButtonState::Pressed);
+                boardButtons_[i][j].setState(BoardSquareState::Pressed);
         }
     }   
 }

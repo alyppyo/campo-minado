@@ -2,16 +2,29 @@
 
 TitleScreen::TitleScreen(sf::RenderWindow * window) : Screen::Screen(window) {
     logo_.setTexture(AssetManager::texture(Texture::Logo));
+    logo_.setPosition(0, 60);
 
-    // Centralizar mensagem.
-    // sf::FloatRect bounds = logo_.getLocalBounds();
-    // logo_.setOrigin(bounds.left + bounds.width/2,
-    //                 bounds.top + bounds.height/2);
-    //logo_.setPosition(window_->getSize().x*0.5, window_->getSize().y*0.4);
+    int characterSize = 50;
 
-    std::cout << logo_.getPosition().x << " " << logo_.getPosition().y << std::endl;
+    buttons_.emplace_back(L"Iniciar Jogo", characterSize);
+    buttons_.emplace_back(L"Opções", characterSize);
+
+    float height = 0.7;
+    for(auto& button : buttons_) {
+        centerAtPosition(button, height);
+        height += 0.075;
+    }
 }
 
-void TitleScreen::draw() {
+void TitleScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
+    Screen::draw(mousePosition, mousePressed);
+
     window_->draw(logo_);
+
+    for(int i = 0; i < buttons_.size(); ++i) {
+        if(buttons_[i].update(mousePosition) == ButtonState::MouseHovering && mousePressed)
+            status_ = (i == 0) ? ScreenStatus::ChangeToGame : ScreenStatus::ChangeToOptions;
+
+        window_->draw(buttons_[i]);
+    }
 }

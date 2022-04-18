@@ -8,6 +8,7 @@
 #include "../Screens/TitleScreen.h"
 
 class GameManager {
+    int screenWidth_, screenHeight_;
     sf::RenderWindow window_;
     std::unique_ptr<Screen> currentScreen_;
 

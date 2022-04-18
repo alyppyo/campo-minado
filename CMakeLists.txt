@@ -13,6 +13,8 @@ find_package(SFML 2.5 COMPONENTS graphics audio main REQUIRED)
 # Fontes do projeto
 set(PROJECT_SOURCES 
     src/Main.cpp
+    src/Components/BoardSquare.h
+    src/Components/BoardSquare.cpp
     src/Components/Button.h
     src/Components/Button.cpp
     src/Core/Board.h

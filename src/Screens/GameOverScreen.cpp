@@ -1,16 +1,12 @@
 #include "GameOverScreen.h"
 
-GameOverScreen::GameOverScreen(sf::RenderWindow * window, bool victory) : Screen::Screen(window) {
+GameOverScreen::GameOverScreen(sf::RenderWindow * window, bool victory) :
+    Screen::Screen(window), returnButton_(L"Voltar para a tela inicial", 50) {
     // Mensagem principal.
     mainMessage_.setFont(AssetManager::font(Font::MotionControl));
     mainMessage_.setCharacterSize(80);
     mainMessage_.setString(victory ? sf::String(L"Você venceu!") : sf::String(L"Você explodiu..."));
-
-    // Centralizar mensagem.
-    sf::FloatRect bounds = mainMessage_.getLocalBounds();
-    mainMessage_.setOrigin(bounds.left + bounds.width/2,
-                           bounds.top + bounds.height/2);
-    mainMessage_.setPosition(window_->getSize().x*0.5, window_->getSize().y*0.4);
+    centerAtPosition(mainMessage_, 0.4);
 
     // Mensagem de suporte.
     supportMessage_.setFont(AssetManager::font(Font::Roboto));
@@ -18,12 +14,10 @@ GameOverScreen::GameOverScreen(sf::RenderWindow * window, bool victory) : Screen
     supportMessage_.setString(victory ?
                               sf::String(L"Parabéns! Conseguiu desviar de todas as bombas!") :
                               sf::String(L"Sugerimos que procure o hospital mais próximo."));
+    centerAtPosition(supportMessage_, 0.5);
     
-    // Centralizar mensagem.
-    bounds = supportMessage_.getLocalBounds();
-    supportMessage_.setOrigin(bounds.left + bounds.width/2,
-                              bounds.top  + bounds.height/2);
-    supportMessage_.setPosition(window_->getSize().x*0.5, window_->getSize().y*0.5);
+    // Botão de retorno.
+    centerAtPosition(returnButton_, 0.7);
 }
 
 GameOverScreen::~GameOverScreen() {}
@@ -31,6 +25,10 @@ GameOverScreen::~GameOverScreen() {}
 void GameOverScreen::draw(sf::Vector2i mousePosition, bool mousePressed) {
     Screen::draw(mousePosition, mousePressed);
 
+    if(returnButton_.update(mousePosition) == ButtonState::MouseHovering && mousePressed)
+        status_ = ScreenStatus::ChangeToTitle;
+    
     window_->draw(mainMessage_);
     window_->draw(supportMessage_);
+    window_->draw(returnButton_);
 }
