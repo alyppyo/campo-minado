@@ -13,5 +13,7 @@ Implementação básica do clássico Campo Minado, desenvolvida para o processo 
 
 - O código-fonte está devidamente comentado, seguindo o formato Doxygen de documentação.
 
+- A interface do jogo foi feita com auxílio da SFML. Como é a primeira vez que a utilizo, é possível que alguns pontos não estejam otimizados.
+
 ## Bugs conhecidos
 - Em algumas situações aleatórias, o conteúdo do tabuleiro aparece vazio, com apenas as bombas ativas. Por se tratar de um erro intermitente, ainda não foi encontrada a razão.
